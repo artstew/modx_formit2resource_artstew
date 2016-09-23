@@ -1,0 +1,67 @@
+[[!FormIt? &hooks=`tempTestSend` &preHooks=`tempTestReceive` &resource2formitfields=`t_alarm_initiating_device,annunciators_1_location`]]
+ 
+<h2>Resource Form</h2>
+<p>[[+fi.error.error_message]]</p>
+<form class="form" action="[[~[[*id]]]]" method="post">
+    <input name="nospam:blank" type="hidden" />
+    <input name="resource_id" type="hidden" value="[[+fi.id]]" />
+    <label for="t_alarm_initiating_device">
+        t_alarm_initiating_device:
+    </label>
+    <input type="hidden" name="t_alarm_initiating_device[]" value = "" />
+    <input id="t_alarm_initiating_device" name="t_alarm_initiating_device[]" type="checkbox" [[!+fi.t_alarm_initiating_device:FormItIsChecked=`1`]] value="1" /><br />
+    
+    <label for="annunciators_1_location">
+        Annunciator 1 description:
+        <span class="error">[[+fi.error.annunciators_1_location]]</span>
+    </label>
+    <input id="annunciators_1_location" name="annunciators_1_location" type="text" value="[[!+fi.annunciators_1_location]]" /><br />
+    
+    <label for="equipment_list">
+        Equipment List:
+        <span class="error">[[+fi.error.annunciators_1_location]]</span>
+    </label>
+    <table id="equipment_list_table">
+    [[getImageList? &docid=`[[getUrlParam? &name=`resId`]]` &tvname=`equipment_list` &tpl=`@CODE:
+    <tr>
+        <input type="hidden" name="MIGX_id[]" value="[[+MIGX_id]]">
+        <input type="hidden" name="idx[]" value="[[+idx]]">
+        <td>Device Type:<br />
+            <input id="dev_type_[[+MIGX_id]]" name="dev_type_[[+MIGX_id]]" type="text" value="[[+dev_type]]" />
+        </td>
+        <td>Location:<br />
+            <input id="location_[[+MIGX_id]]" name="location_[[+MIGX_id]]" type="text" value="[[+location]]" />
+        </td>
+        <td>Service Performed:<br />
+            <select id="service_performed_[[+MIGX_id]]" name="service_performed_[[+MIGX_id]]">
+                <option value="Tested" [[+service_performed:FormItIsSelected=`Tested`]] >Tested</option>
+                <option value="Not Tested" [[+service_performed:FormItIsSelected=`Not Tested`]] >Not Tested</option>
+                <option value="Visual" [[+service_performed:FormItIsSelected=`Visual`]] >Visual</option>
+            </select>
+        </td>
+        <td>Prior Test:<br />
+            <input id="prior_test_[[+MIGX_id]]" name="prior_test_[[+MIGX_id]]" type="text" value="[[+prior_test]]" />
+        </td>
+        <td>Current Test:<br />
+            <input id="current_test_[[+MIGX_id]]" name="current_test_[[+MIGX_id]]" type="text" value="[[+current_test]]" />
+        </td>
+        <td>Test Result:<br />
+            <select id="test_result_[[+MIGX_id]]" name="test_result_[[+MIGX_id]]">
+                <option value="Passed" [[+test_result:FormItIsSelected=`Passed`]] >Passed</option>
+                <option value="Failed" [[+test_result:FormItIsSelected=`Failed`]] >Failed</option>
+                <option value="Not Applicable" [[+test_result:FormItIsSelected=`Not Applicable`]] >Not Applicable</option>
+                <option value="Exceeds" [[+test_result:FormItIsSelected=`Exceeds`]] >Exceeds</option>
+            </select>
+        </td>
+    </tr>
+    `]]
+    <!--[[getImageList? &docid=`[[getUrlParam? &name=`resId`]]` &tvname=`equipment_list`]]-->
+    </table>
+    
+    <input id="addEquipmentListRow" type="button" value="Add Row" onclick="addMigxRow();" />
+    
+<br class="clear" />
+<div class="form-buttons">
+        <input type="submit" value="Update/Create Resource" />
+    </div>
+</form>
